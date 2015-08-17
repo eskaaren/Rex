@@ -96,7 +96,8 @@ sub exec {
 
     while ( my $output = <$reader> ) {
       if ( $option->{print} ) {
-        Rex::Logger::info($output);
+        chomp(my $print = $output);
+        Rex::Logger::info($print);
       }
       $out .= $output;
       $self->execute_line_based_operation( $output, $option )
@@ -105,7 +106,8 @@ sub exec {
 
     while ( my $errout = <$error> ) {
       if ( $option->{print} ) {
-        Rex::Logger::info($errout, 'error');
+        chomp(my $print = $errout);
+        Rex::Logger::info($print, 'error');
       }
       $err .= $errout;
       $self->execute_line_based_operation( $errout, $option )
@@ -118,7 +120,8 @@ sub exec {
     $pid = open( my $fh, "$cmd 2>&1 |" ) or die($!);
     while (<$fh>) {
       if ( $option->{print} ) {
-        Rex::Logger::info($_);
+        chomp(my $print = $_);
+        Rex::Logger::info($print);
       }
       $out .= $_;
       $self->execute_line_based_operation( $_, $option )

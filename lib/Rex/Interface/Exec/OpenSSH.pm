@@ -38,7 +38,8 @@ sub _exec {
   while ( my $line = <$out_fh> ) {
     $line =~ s/(\r?\n)$/\n/;
     if ( $option->{print} ) {
-      Rex::Logger::info($line);
+      chomp(my $print = $line);
+      Rex::Logger::info($print);
     }
     $out .= $line;
     $self->execute_line_based_operation( $line, $option )
@@ -48,7 +49,8 @@ sub _exec {
   while ( my $line = <$err_fh> ) {
     $line =~ s/(\r?\n)$/\n/;
     if ( $option->{print} ) {
-      Rex::Logger::info($line, 'error');
+      chomp(my $print = $line);
+      Rex::Logger::info($print, 'error');
     }
     $err .= $line;
     $self->execute_line_based_operation( $line, $option )

@@ -63,7 +63,8 @@ sub net_ssh2_exec {
       for my $line (@lines) {
         $line =~ s/[\r\n]//gms;
         if ( $option->{print} ) {
-          Rex::Logger::info($line);
+          chomp(my $print = $line);
+          Rex::Logger::info($print);
         }
         $line .= "\n";
         $base->execute_line_based_operation( $line, $option ) && goto END_READ;
@@ -85,7 +86,8 @@ sub net_ssh2_exec {
     for my $line (@lines_err) {
       $line =~ s/[\r\n]//gms;
       if ( $option->{print} ) {
-        Rex::Logger::info($line, 'error');
+        chomp(my $print = $line);
+        Rex::Logger::info($print, 'error');
       }
       $line .= "\n";
       $base->execute_line_based_operation( $line, $option ) && goto END_READ;
